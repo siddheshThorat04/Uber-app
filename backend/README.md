@@ -128,3 +128,98 @@ The request body must be in JSON format and include the following fields:
 - `200`: User successfully logged in.
 - `400`: Validation errors occurred.
 - `401`: Invalid email or password.
+
+
+## User Profile Endpoint
+
+### Endpoint
+`GET /user/profile`
+
+### Description
+This endpoint retrieves the profile of the currently authenticated user.
+
+### Required Data
+No request body is required. The token must be provided in the `Authorization` header or as a cookie.
+
+### Example Request
+#### Using Authorization Header:
+```
+GET /user/profile
+Authorization: Bearer your_jwt_token
+```
+
+#### Using Cookie:
+```
+GET /user/profile
+Cookie: token=your_jwt_token
+```
+
+### Example Response
+- **Success (200 OK)**: Returns a JSON object containing the user's profile details.
+  - Example Response:
+  ```json
+  {
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+  ```
+
+- **Error (401 Unauthorized)**: If the token is missing, invalid, or blacklisted, returns an error message.
+  - Example Response:
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+### Status Codes
+- `200`: User profile retrieved successfully.
+- `401`: Unauthorized (token missing, invalid, or blacklisted).
+
+## User Logout Endpoint
+
+### Endpoint
+`GET /user/logout`
+
+### Description
+This endpoint logs out the currently authenticated user by blacklisting their authentication token and clearing the token cookie.
+
+### Required Data
+No request body is required. The token must be provided in the `Authorization` header or as a cookie.
+
+### Example Request
+#### Using Authorization Header:
+```
+GET /user/logout
+Authorization: Bearer your_jwt_token
+```
+
+#### Using Cookie:
+```
+GET /user/logout
+Cookie: token=your_jwt_token
+```
+
+### Example Response
+- **Success (200 OK)**: Returns a success message indicating the user has been logged out.
+  - Example Response:
+  ```json
+  {
+    "message": "Logout successful"
+  }
+  ```
+
+- **Error (401 Unauthorized)**: If the token is missing, invalid, or blacklisted, returns an error message.
+  - Example Response:
+  ```json
+  {
+    "message": "Unauthorized"
+  }
+  ```
+
+### Status Codes
+- `200`: Logout successful.
+- `401`: Unauthorized (token missing, invalid, or blacklisted).

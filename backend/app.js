@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 
 const cors = require("cors");
 const userRoutes = require("./routes/user.routes");
+const captainRoutes = require("./routes/captain.routes");
 const connectDB = require("./db/db");
 connectDB();
 
@@ -20,6 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/users", require("./routes/user.routes"));
+app.use("/captain" , require("./routes/captain.routes"));
+
+
+
 app.get("/", (req, res) => {
   res.send("hello");
 });

@@ -223,3 +223,80 @@ Cookie: token=your_jwt_token
 ### Status Codes
 - `200`: Logout successful.
 - `401`: Unauthorized (token missing, invalid, or blacklisted).
+
+
+# UBER AUTO Backend Documentation
+
+## Captain Registration Endpoint
+
+### Endpoint
+`POST /captain/register`
+
+### Description
+This endpoint allows a new captain to register by providing their details and vehicle information. It validates the input data, hashes the password, and creates a new captain in the database.
+
+### Required Data
+The request body must be in JSON format and include the following fields:
+
+- `fullName`: An object containing:
+  - `firstName`: A string representing the captain's first name (minimum 3 characters).
+  - `lastName`: A string representing the captain's last name (minimum 3 characters).
+- `email`: A string representing the captain's email address (must be a valid email format and unique).
+- `password`: A string representing the captain's password (minimum 6 characters).
+- `vehicle`: An object containing:
+  - `color`: A string representing the vehicle's color (required).
+  - `plate`: A string representing the vehicle's plate number (required).
+  - `capacity`: A number representing the vehicle's capacity (minimum 1).
+  - `vehicleType`: A string representing the type of vehicle (must be one of `car`, `bike`, or `auto`).
+
+### Example Request
+```json
+{
+  "fullName": {
+    "firstName": "Jane",
+    "lastName": "Doe"
+  },
+  "email": "jane.doe@example.com",
+  "password": "securepassword",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Example Response
+- **Success (201 Created)**: Returns a JSON object containing the authentication token and captain details.
+  - Example Response:
+  ```json
+  {
+    "token": "your_jwt_token",
+    "captain": {
+      "fullName": {
+        "firstName": "Jane",
+        "lastName": "Doe"
+      },
+      "email": "jane.doe@example.com",
+      "vehicle": {
+        "color": "Red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicleType": "car"
+      }
+    }
+  }
+  ```
+
+- **Error (400 Bad Request)**: If validation fails or the captain already exists, returns a JSON object with error details.
+  - Example Response:
+  ```json
+  {
+    "message": "Captain already exists"
+  }
+  ```
+
+### Status Codes
+- `201`: Captain successfully registered.
+- `400`: Validation errors occurred or captain already exists.
